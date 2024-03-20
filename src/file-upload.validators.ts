@@ -13,7 +13,8 @@ export class CustomUploadFileTypeValidator extends FileValidator {
   }
   public isValid(file?: Express.Multer.File): boolean {
     const response = fileType.parse(file.buffer);
-    return this._allowedMimeTypes.includes(response.mime);
+    //sql changed to image ext will make response undefined
+    return this._allowedMimeTypes.includes(response?.mime);
   }
   public buildErrorMessage(): string {
     return `Only files of type ${this._allowedMimeTypes.join(

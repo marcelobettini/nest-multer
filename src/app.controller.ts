@@ -8,9 +8,8 @@ import {
 } from '@nestjs/common';
 import { AppService } from './app.service';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { CustomUploadFileTypeValidator } from './app.validators';
-const MAX_BYTES_PIC_SIZE = 2 * 1024 * 1024;
-const VALID_MIME_TYPES = ['image/jpeg', 'image/png'];
+import { CustomUploadFileTypeValidator } from './file-upload.validators';
+import { CONSTANTS } from './constants/constants';
 @Controller()
 export class AppController {
   constructor(private readonly appService: AppService) {}
@@ -21,14 +20,14 @@ export class AppController {
       new ParseFilePipeBuilder()
         .addValidator(
           new CustomUploadFileTypeValidator({
-            fileType: VALID_MIME_TYPES,
+            fileType: CONSTANTS.valid_mime_types,
           }),
         )
-        .addMaxSizeValidator({ maxSize: MAX_BYTES_PIC_SIZE })
+        .addMaxSizeValidator({ maxSize: CONSTANTS.max_bytes_pic_size })
         .build({ errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY }),
     )
     file,
   ) {
-    return file;
+    return this.appService.handleUpload(file);
   }
 }
