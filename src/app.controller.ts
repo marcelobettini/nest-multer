@@ -28,6 +28,7 @@ export class AppController {
     )
     file,
   ) {
-    return this.appService.handleUpload(file);
+    const res = this.appService.handleUpload(file);
+    return (await res).url;
   }
 }
