@@ -1,6 +1,7 @@
 import {
   Controller,
   Post,
+  Get,
   UploadedFile,
   UseInterceptors,
   ParseFilePipeBuilder,
@@ -14,7 +15,10 @@ import { CONSTANTS } from './constants/constants';
 @Controller() // Define un controlador de NestJS
 export class AppController {
   constructor(private readonly appService: AppService) {} // Constructor del controlador, inyecta el servicio AppService
-
+  @Get()
+  public getHello(): string {
+    return 'hello world';
+  }
   @Post('upload') // Define una ruta POST '/upload'
   @UseInterceptors(FileInterceptor('file')) // Utiliza el interceptor de archivos de NestJS y especifica que el campo de la solicitud se llama 'file'
   public async uploadfile(
